@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <title>系統載入中</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .option { cursor: pointer; padding: 0 5px; }
+        .selected { background-color: #00ff00; color: black; }
+    </style>
 </head>
 <body>
     <pre id="code-display"></pre>
+    <div id="options" style="display:none;">
+        程式格式化： 
+        <span id="yes" class="option selected">YES</span>
+        <span id="no" class="option">NO</span>
+    </div>
     <script>
         const codeLines = [
             "系統啟動中...",
@@ -14,12 +23,15 @@
             "載入模組：system.core",
             "驗證安全憑證...",
             "讀取資料...",
-            "---------------------------",
-            "程式格式化： [yes]  [no]"
+            "---------------------------"
         ];
 
         let i = 0;
         const display = document.getElementById('code-display');
+        const optionsDiv = document.getElementById('options');
+        const yesBtn = document.getElementById('yes');
+        const noBtn = document.getElementById('no');
+        let selection = 0; // 0 = YES, 1 = NO
 
         function showLine() {
             if (i < codeLines.length) {
@@ -27,36 +39,52 @@
                 i++;
                 setTimeout(showLine, 500);
             } else {
-                enableSelection();
+                optionsDiv.style.display = "block";
+                enableInteraction();
             }
         }
 
-        let selection = 0; // 0 = yes, 1 = no
-
-        function renderOptions() {
-            display.textContent = codeLines.slice(0, -1).join("\n") + "\n---------------------------\n";
-            display.textContent += "程式格式化： ";
+        function updateSelection() {
             if (selection === 0) {
-                display.textContent += "[YES]  no";
+                yesBtn.classList.add('selected');
+                noBtn.classList.remove('selected');
             } else {
-                display.textContent += "yes  [NO]";
+                yesBtn.classList.remove('selected');
+                noBtn.classList.add('selected');
             }
         }
 
-        function enableSelection() {
+        function enableInteraction() {
+            // 鍵盤控制
             document.addEventListener('keydown', function(e) {
                 if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
                     selection = selection === 0 ? 1 : 0;
-                    renderOptions();
+                    updateSelection();
                 } else if (e.key === "Enter") {
-                    if (selection === 0) {
-                        window.location.href = "page3.html";
-                    } else {
-                        window.location.href = "black.html";
-                    }
+                    executeSelection();
                 }
             });
-            renderOptions();
+
+            // 滑鼠控制
+            yesBtn.addEventListener('click', function() {
+                selection = 0;
+                updateSelection();
+                executeSelection();
+            });
+
+            noBtn.addEventListener('click', function() {
+                selection = 1;
+                updateSelection();
+                executeSelection();
+            });
+        }
+
+        function executeSelection() {
+            if (selection === 0) {
+                window.location.href = "page3.html";
+            } else {
+                window.location.href = "black.html";
+            }
         }
 
         showLine();
