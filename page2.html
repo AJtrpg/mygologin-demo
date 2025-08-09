@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>系統載入中</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <pre id="code-display"></pre>
+    <script>
+        const codeLines = [
+            "系統啟動中...",
+            "載入模組：network.dll",
+            "載入模組：system.core",
+            "驗證安全憑證...",
+            "讀取資料...",
+            "---------------------------",
+            "程式格式化： [yes]  [no]"
+        ];
+
+        let i = 0;
+        const display = document.getElementById('code-display');
+
+        function showLine() {
+            if (i < codeLines.length) {
+                display.textContent += codeLines[i] + "\n";
+                i++;
+                setTimeout(showLine, 500);
+            }
+        }
+
+        showLine();
+    </script>
+</body>
+</html>
