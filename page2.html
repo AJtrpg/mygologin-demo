@@ -26,7 +26,37 @@
                 display.textContent += codeLines[i] + "\n";
                 i++;
                 setTimeout(showLine, 500);
+            } else {
+                enableSelection();
             }
+        }
+
+        let selection = 0; // 0 = yes, 1 = no
+
+        function renderOptions() {
+            display.textContent = codeLines.slice(0, -1).join("\n") + "\n---------------------------\n";
+            display.textContent += "程式格式化： ";
+            if (selection === 0) {
+                display.textContent += "[YES]  no";
+            } else {
+                display.textContent += "yes  [NO]";
+            }
+        }
+
+        function enableSelection() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+                    selection = selection === 0 ? 1 : 0;
+                    renderOptions();
+                } else if (e.key === "Enter") {
+                    if (selection === 0) {
+                        window.location.href = "page3.html";
+                    } else {
+                        window.location.href = "black.html";
+                    }
+                }
+            });
+            renderOptions();
         }
 
         showLine();

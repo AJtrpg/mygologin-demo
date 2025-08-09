@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>程式格式化中</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <pre id="code-display"></pre>
+    <script>
+        const codeLines = [
+            "格式化模組載入中...",
+            "掃描系統檔案...",
+            "修復損毀的區塊...",
+            "清理暫存資料...",
+            "重建索引表...",
+            "優化記憶體分配...",
+            "檢查網路連線...",
+            "更新安全協定...",
+            "完成系統檢查...",
+            "---------------------------",
+            "格式化成功",
+            "正在重啟程式"
+        ];
+
+        let i = 0;
+        const display = document.getElementById('code-display');
+
+        function showLine() {
+            if (i < codeLines.length) {
+                display.textContent += codeLines[i] + "\n";
+                i++;
+                setTimeout(showLine, 500);
+            }
+        }
+
+        showLine();
+    </script>
+</body>
+</html>
